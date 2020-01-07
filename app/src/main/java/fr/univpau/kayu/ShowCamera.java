@@ -6,8 +6,10 @@ import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.View;
 
 import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
@@ -29,8 +31,12 @@ public class ShowCamera extends SurfaceView implements SurfaceHolder.Callback {
         holder = getHolder();
         holder.addCallback(this);
 
+
+
         detector = new BarcodeDetector.Builder(context).build();
-        source = new CameraSource.Builder(context, detector).build();
+        source = new CameraSource.Builder(context, detector).setAutoFocusEnabled(true).build();
+
+        
 
         detector.setProcessor(new Detector.Processor<Barcode>() {
             @Override
@@ -42,7 +48,7 @@ public class ShowCamera extends SurfaceView implements SurfaceHolder.Callback {
             public void receiveDetections(Detector.Detections<Barcode> detections) {
 
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
-
+                Log.i("DEVUPPA", "CHECKING FOR DETECTION");
                 if(barcodes.size() > 0) {
                     Log.i("DEVUPPA", "SIZEOFDETECTORS: " + new Integer(barcodes.size()).toString());
                 }

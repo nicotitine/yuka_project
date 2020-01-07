@@ -11,8 +11,7 @@
         android:id="@+id/productImageRow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:adjustViewBounds="true"
+        android:adjustViewBounds="false"
         android:maxWidth="75dp"
         android:maxHeight="75dp"
         android:minWidth="75dp"
@@ -46,6 +45,5 @@
         android:id="@+id/imageView4"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:layout_weight="1"
         app:srcCompat="@drawable/ic_right_arrow_green_24dp" />
 </LinearLayout>

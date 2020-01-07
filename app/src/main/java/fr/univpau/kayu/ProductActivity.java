@@ -1,11 +1,13 @@
 package fr.univpau.kayu;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +25,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.net.URISyntaxException;
 import fr.univpau.kayu.db.DatabaseTask;
+import me.relex.circleindicator.CircleIndicator;
 
 public class ProductActivity extends AppCompatActivity {
 
@@ -33,6 +36,7 @@ public class ProductActivity extends AppCompatActivity {
     private TextView productQuantity;
     private TextView searchOtherImagesText;
     private TextView carrefourPrice;
+    private TextView imagesTitle;
     private ProgressBar carrefourPriceLoader;
     private Button savePriceBtn;
     private ProgressBar imagesLoader;
@@ -43,11 +47,10 @@ public class ProductActivity extends AppCompatActivity {
     private RecyclerView ingredients;
     private Button openOnOffBtn;
     private ViewPager viewPager;
+    private CircleIndicator indicator;
     private String[] images;
     private String[] newImages;
     private String[] previousImages;
-
-    private static Context mContext;
 
     // WebSocket related
     private Socket socket;
@@ -62,12 +65,15 @@ public class ProductActivity extends AppCompatActivity {
         Intent intent = getIntent();
         product = (Product)intent.getSerializableExtra(PRODUCT_EXTRA_PARAM);
 
-        mContext = this;
+        // Preference handling
+        SharedPreferences prefs = getSharedPreferences("preferences", 0);
+        boolean isAutomaticSearchOn = prefs.getBoolean("isAutomaticSearchOn", true);
 
         // All UI elements
         productName = findViewById(R.id.productName);
         productGtin = findViewById(R.id.productGtin);
         productQuantity = findViewById(R.id.productQuantity);
+        imagesTitle = findViewById(R.id.imagesTitle);
         searchOtherImagesText = findViewById(R.id.searchOtherImagesText);
         carrefourPrice = findViewById(R.id.carrefourPrice);
         carrefourPriceLoader = findViewById(R.id.carrefourPriceLoader);
@@ -80,6 +86,7 @@ public class ProductActivity extends AppCompatActivity {
         ingredients = findViewById(R.id.ingredients);
         openOnOffBtn = findViewById(R.id.openOnOffBtn);
         viewPager = findViewById(R.id.viewPager);
+        indicator = findViewById(R.id.indicator);
 
         // Display back button at the top left corner.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -88,13 +95,18 @@ public class ProductActivity extends AppCompatActivity {
         productName.setText(product.getName());
         productGtin.setText(product.getGtin());
         productQuantity.setText(product.getQuantity());
+        carrefourPrice.setText("Carrefour: " + product.getPrice());
 
         // Transform "image1, image2" to ["image1", "image2]
         images = product.getImages().split(", ");
 
+        imagesTitle.setText(getString(R.string.product_images) + " (" + images.length + ")");
+
         // Carousel init
         ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(this, images, viewPager);
         viewPager.setAdapter(imagePagerAdapter);
+        indicator.setViewPager(viewPager);
+        imagePagerAdapter.registerDataSetObserver(indicator.getDataSetObserver());
 
         displayImagesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -174,6 +186,8 @@ public class ProductActivity extends AppCompatActivity {
             }
         });
 
+
+
         /**
          * Socket related
          * It uses websockets (socket.io) to connect to an external server.
@@ -181,33 +195,42 @@ public class ProductActivity extends AppCompatActivity {
          *      - Get the product price (only available at Carrefour)
          *      - Get better images for this product
          */
-        try {
-            socket = IO.socket("http://51.83.46.109:9091");
-            socket.connect();
+        if(isAutomaticSearchOn) {
 
-            JSONObject data = new JSONObject("{data: {gtin: " + product.getGtin() + ", id: " + socket.id() + "}}");
+            Log.i("DEVUPPAPREFS", "DARK MODE ON");
 
-            if (!product.getPriceAlreadyRetrieved()) {
-                socket.emit("getPriceCarrefour", data);
-            } else {
-                carrefourPriceLoader.setVisibility(View.GONE);
-                carrefourPrice.setText("Carrefour: " + product.getPrice());
+            try {
+                socket = IO.socket("http://51.83.46.109:9091");
+                socket.connect();
+
+                JSONObject data = new JSONObject("{data: {gtin: " + product.getGtin() + ", id: " + socket.id() + "}}");
+
+                if (!product.getPriceAlreadyRetrieved()) {
+                    socket.emit("getPriceCarrefour", data);
+                } else {
+                    carrefourPriceLoader.setVisibility(View.GONE);
+                    carrefourPrice.setText("Carrefour: " + product.getPrice());
+                }
+
+                if(!product.getImagesAlreadyRetrieved()) {
+                    socket.emit("getImages", data);
+                } else {
+                    imagesLoader.setVisibility(View.GONE);
+                    searchOtherImagesText.setVisibility(View.GONE);
+                }
+
+
+                socket.on("getImagesResponse", getImagesResponse);
+                socket.on("getPriceCarrefourResponse", getPriceCarrefourResponse);
+            } catch (JSONException e) {
+                Log.i("DEVUPPA", e.getMessage());
+            } catch (URISyntaxException e) {
+                Log.i("DEVUPPA", e.getMessage());
             }
-
-            if(!product.getImagesAlreadyRetrieved()) {
-                socket.emit("getImages", data);
-            } else {
-                imagesLoader.setVisibility(View.GONE);
-                searchOtherImagesText.setVisibility(View.GONE);
-            }
-
-
-            socket.on("getImagesResponse", getImagesResponse);
-            socket.on("getPriceCarrefourResponse", getPriceCarrefourResponse);
-        } catch (JSONException e) {
-            Log.i("DEVUPPA", e.getMessage());
-        } catch (URISyntaxException e) {
-            Log.i("DEVUPPA", e.getMessage());
+        } else {
+            carrefourPriceLoader.setVisibility(View.GONE);
+            imagesLoader.setVisibility(View.GONE);
+            searchOtherImagesText.setVisibility(View.GONE);
         }
     }
 

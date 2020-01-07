@@ -11,14 +11,11 @@
     android:layout_height="wrap_content">
 
 
-
-
     <TextView
         android:id="@+id/productName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/product_name"
         android:textSize="24sp"
@@ -93,18 +90,6 @@
         android:layout_height="19dp"
         app:layout_constraintStart_toEndOf="@+id/carrefourPrice"
         app:layout_constraintTop_toBottomOf="@+id/productPrice" />
-
-    <TextView
-        android:id="@+id/productIngredients"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/ingredients"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/viewPager" />
 
     <TextView
         android:id="@+id/searchOtherImagesText"
@@ -217,6 +202,27 @@
         android:layout_marginTop="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/hideOtherImagesInfoBtn" />
+
+    <me.relex.circleindicator.CircleIndicator
+        android:id="@+id/indicator"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/viewPager"
+        app:layout_constraintStart_toStartOf="parent">
+
+    </me.relex.circleindicator.CircleIndicator>
+
+    <TextView
+        android:id="@+id/productIngredients"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/ingredients"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/indicator" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ingredients"

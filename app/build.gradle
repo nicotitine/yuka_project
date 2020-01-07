@@ -46,6 +46,8 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-vision:15.0.2'
 
+    implementation 'me.relex:circleindicator:2.1.4'
+
 
 
 }
