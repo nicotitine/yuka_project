@@ -44,6 +44,8 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.10.0'
     implementation 'com.github.chrisbanes:PhotoView:2.3.0'
 
+    implementation 'com.google.android.gms:play-services-vision:15.0.2'
+
 
 
 }

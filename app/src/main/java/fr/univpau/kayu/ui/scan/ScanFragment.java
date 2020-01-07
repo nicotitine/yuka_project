@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,12 @@ import android.widget.FrameLayout;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
+
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.MultiProcessor;
+import com.google.android.gms.vision.barcode.Barcode;
+import com.google.android.gms.vision.barcode.BarcodeDetector;
+
 import org.json.JSONObject;
 import fr.univpau.kayu.OFFIntentService;
 import fr.univpau.kayu.R;
@@ -46,6 +53,10 @@ public class ScanFragment extends Fragment implements View.OnClickListener {
         frameLayout = root.findViewById(R.id.frameLayout);
         showCamera = new ShowCamera(getContext());
         frameLayout.addView(showCamera);
+
+
+
+
 
         gtinInput.addTextChangedListener(new TextWatcher() {
             @Override

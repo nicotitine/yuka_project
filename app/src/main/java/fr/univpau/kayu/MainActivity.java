@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(requestCode == ScanFragment.PREVIEW_REQUEST_CODE) {
+        if(requestCode == ScanFragment.PREVIEW_REQUEST_CODE && data.getExtras() != null) {
             try {
                 JSONObject json = new JSONObject(data.getExtras().get(OFFIntentService.JSON_RESULT_EXTRA).toString());
                 int status = json.getInt("status");
