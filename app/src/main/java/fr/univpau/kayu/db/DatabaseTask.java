@@ -1,22 +1,53 @@
 package fr.univpau.kayu.db;
 
-import android.content.Context;
-import android.util.Log;
-
+import android.app.Application;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import fr.univpau.kayu.Product;
 
-public class DatabaseTask implements Runnable {
-    private Product product;
-    private Context context;
+public class DatabaseTask {
+    private static DatabaseTask instance;
+    private AppDatabase myDatabase;
+    private Executor mExecutor = Executors.newSingleThreadExecutor();
 
-    public DatabaseTask(Product product, Context context) {
-        this.product = product;
-        this.context = context;
+    private DatabaseTask(Application app) {
+        myDatabase = AppDatabase.getAppDatabase(app.getApplicationContext());
     }
 
-    @Override
-    public void run() {
-        Log.i("DEVUPPA", "PRODUCT SAVED");
-        AppDatabase.getAppDatabase(context).productDao().insertAll(product);
+    public static DatabaseTask getInstance(Application app) {
+        if(instance == null) {
+            instance = new DatabaseTask(app);
+        }
+        return instance;
+    }
+
+    public void insert(final Product product) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                myDatabase.productDao().insertAll(product);
+            }
+        });
+
+        try {
+            finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
+    }
+
+    public void update(final Product product) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                myDatabase.productDao().update(product);
+
+            }
+        });
+        try {
+            finalize();
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+        }
     }
 }
