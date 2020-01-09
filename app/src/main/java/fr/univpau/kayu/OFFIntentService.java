@@ -47,6 +47,8 @@ public class OFFIntentService extends IntentService {
                 Intent result = new Intent();
                 result.putExtra(JSON_RESULT_EXTRA, string);
 
+                Log.i("DEVUPPA", "Service finishing");
+
                 reply.send(this, RESULT_CODE, result);
 
             } catch (MalformedURLException e) {

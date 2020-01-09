@@ -2,6 +2,7 @@ package fr.univpau.kayu;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.github.nkzawa.emitter.Emitter;
@@ -30,7 +32,14 @@ import me.relex.circleindicator.CircleIndicator;
 public class ProductActivity extends AppCompatActivity {
 
     public static final String PRODUCT_EXTRA_PARAM = "product";
+    public static final String PRODUCT_FOUND = "product_found";
+    public static final String PRODUCT_GTIN =  "product_gtin";
 
+    private boolean isProductFound;
+
+
+    private ScrollView scrollView;
+    private ConstraintLayout mainLayout;
     private TextView productName;
     private TextView productGtin;
     private TextView productQuantity;
@@ -48,6 +57,8 @@ public class ProductActivity extends AppCompatActivity {
     private Button openOnOffBtn;
     private ViewPager viewPager;
     private CircleIndicator indicator;
+    private TextView noProductTitle;
+    private Button addProductOFF;
     private String[] images;
     private String[] newImages;
     private String[] previousImages;
@@ -62,14 +73,13 @@ public class ProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        Intent intent = getIntent();
-        product = (Product)intent.getSerializableExtra(PRODUCT_EXTRA_PARAM);
-
         // Preference handling
         SharedPreferences prefs = getSharedPreferences("preferences", 0);
         boolean isAutomaticSearchOn = prefs.getBoolean("isAutomaticSearchOn", true);
 
         // All UI elements
+        scrollView = findViewById(R.id.scrollView);
+        mainLayout = findViewById(R.id.mainLayout);
         productName = findViewById(R.id.productName);
         productGtin = findViewById(R.id.productGtin);
         productQuantity = findViewById(R.id.productQuantity);
@@ -87,155 +97,195 @@ public class ProductActivity extends AppCompatActivity {
         openOnOffBtn = findViewById(R.id.openOnOffBtn);
         viewPager = findViewById(R.id.viewPager);
         indicator = findViewById(R.id.indicator);
+        noProductTitle = findViewById(R.id.noProductTitle);
+        addProductOFF = findViewById(R.id.addProductOFF);
+
 
         // Display back button at the top left corner.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        // Set UI elements text
-        productName.setText(product.getName());
-        productGtin.setText(product.getGtin());
-        productQuantity.setText(product.getQuantity());
-        carrefourPrice.setText("Carrefour: " + product.getPrice());
+        // Intent params handling
+        Intent intent = getIntent();
+        isProductFound = intent.getBooleanExtra(PRODUCT_FOUND, false);
 
-        // Transform "image1, image2" to ["image1", "image2]
-        images = product.getImages().split(", ");
+        if(isProductFound) {
+            // Start of init if product have been found
+            product = (Product)intent.getSerializableExtra(PRODUCT_EXTRA_PARAM);
 
-        imagesTitle.setText(getString(R.string.product_images) + " (" + images.length + ")");
+            // Set UI elements text
+            productName.setText(product.getName());
+            productGtin.setText(product.getGtin());
+            productQuantity.setText(product.getQuantity());
+            carrefourPrice.setText("Carrefour: " + product.getPrice());
 
-        // Carousel init
-        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(this, images, viewPager);
-        viewPager.setAdapter(imagePagerAdapter);
-        indicator.setViewPager(viewPager);
-        imagePagerAdapter.registerDataSetObserver(indicator.getDataSetObserver());
-
-        displayImagesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                previousImages = images;
-                images = newImages;
-                displayImagesBtn.setVisibility(View.GONE);
-                searchOtherImagesText.setVisibility(View.GONE);
-                hideOtherImagesInfoBtn.setVisibility(View.GONE);
-                cancelOtherImagesBtn.setVisibility(View.VISIBLE);
-                saveNewImagesBtn.setVisibility(View.VISIBLE);
-            }
-        });
-
-        hideOtherImagesInfoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                searchOtherImagesText.setVisibility(View.GONE);
-                displayImagesBtn.setVisibility(View.GONE);
-                hideOtherImagesInfoBtn.setVisibility(View.GONE);
-            }
-        });
-
-        cancelOtherImagesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                images = previousImages;
-                cancelOtherImagesBtn.setVisibility(View.GONE);
-            }
-        });
-
-        saveNewImagesBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                cancelOtherImagesBtn.setVisibility(View.GONE);
-                saveNewImagesBtn.setVisibility(View.GONE);
-
-                String newImagesProduct = "";
-
-                for(int i = 0; i < images.length; i++) {
-                    if(i == images.length - 1) {
-                        newImagesProduct += images[i];
-                    } else {
-                        newImagesProduct += images[i] + ", ";
-                    }
-                }
-
-                product.setImages(newImagesProduct);
-                product.setImagesAlreadyRetrieved(true);
-
-                Log.i("DEVUPPA", "Updating product images");
-
-                DatabaseTask.getInstance(getApplication()).update(product);
-            }
-        });
-
-        savePriceBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                product.setPriceAlreadyRetrieved(true);
-                DatabaseTask.getInstance(getApplication()).update(product);
-                savePriceBtn.setVisibility(View.GONE);
-            }
-        });
-
-        // Ingredients list init
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        ingredients.setLayoutManager(layoutManager);
-        IngredientAdapter adapter = new IngredientAdapter(product.getIngredients().split(", "));
-        ingredients.setAdapter(adapter);
-
-        openOnOffBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://fr.openfoodfacts.org/produit/" + product.getGtin()));
-                startActivity(browserIntent);
-            }
-        });
-
-
-
-        /**
-         * Socket related
-         * It uses websockets (socket.io) to connect to an external server.
-         * We send two requests to this server:
-         *      - Get the product price (only available at Carrefour)
-         *      - Get better images for this product
-         */
-        if(isAutomaticSearchOn) {
-
-            Log.i("DEVUPPAPREFS", "DARK MODE ON");
-
+            // Transform "image1, image2" to ["image1", "image2]
             try {
-                socket = IO.socket("http://51.83.46.109:9091");
-                socket.connect();
-
-                JSONObject data = new JSONObject("{data: {gtin: " + product.getGtin() + ", id: " + socket.id() + "}}");
-
-                if (!product.getPriceAlreadyRetrieved()) {
-                    socket.emit("getPriceCarrefour", data);
-                } else {
-                    carrefourPriceLoader.setVisibility(View.GONE);
-                    carrefourPrice.setText("Carrefour: " + product.getPrice());
-                }
-
-                if(!product.getImagesAlreadyRetrieved()) {
-                    socket.emit("getImages", data);
-                } else {
-                    imagesLoader.setVisibility(View.GONE);
-                    searchOtherImagesText.setVisibility(View.GONE);
-                }
-
-
-                socket.on("getImagesResponse", getImagesResponse);
-                socket.on("getPriceCarrefourResponse", getPriceCarrefourResponse);
-            } catch (JSONException e) {
-                Log.i("DEVUPPA", e.getMessage());
-            } catch (URISyntaxException e) {
-                Log.i("DEVUPPA", e.getMessage());
+                images = product.getImages().split(", ");
+            } catch (Exception e) {
+                images = new String[0];
             }
+
+            imagesTitle.setText(getString(R.string.product_images) + " (" + images.length + ")");
+
+            // Carousel init
+            ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(this, images, viewPager);
+            viewPager.setAdapter(imagePagerAdapter);
+            indicator.setViewPager(viewPager);
+            imagePagerAdapter.registerDataSetObserver(indicator.getDataSetObserver());
+
+            displayImagesBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    previousImages = images;
+                    images = newImages;
+                    displayImagesBtn.setVisibility(View.GONE);
+                    searchOtherImagesText.setVisibility(View.GONE);
+                    hideOtherImagesInfoBtn.setVisibility(View.GONE);
+                    cancelOtherImagesBtn.setVisibility(View.VISIBLE);
+                    saveNewImagesBtn.setVisibility(View.VISIBLE);
+                }
+            });
+
+            hideOtherImagesInfoBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    searchOtherImagesText.setVisibility(View.GONE);
+                    displayImagesBtn.setVisibility(View.GONE);
+                    hideOtherImagesInfoBtn.setVisibility(View.GONE);
+                }
+            });
+
+            cancelOtherImagesBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    images = previousImages;
+                    cancelOtherImagesBtn.setVisibility(View.GONE);
+                }
+            });
+
+            saveNewImagesBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    cancelOtherImagesBtn.setVisibility(View.GONE);
+                    saveNewImagesBtn.setVisibility(View.GONE);
+
+                    String newImagesProduct = "";
+
+                    for(int i = 0; i < images.length; i++) {
+                        if(i == images.length - 1) {
+                            newImagesProduct += images[i];
+                        } else {
+                            newImagesProduct += images[i] + ", ";
+                        }
+                    }
+
+                    product.setImages(newImagesProduct);
+                    product.setImagesAlreadyRetrieved(true);
+
+                    Log.i("DEVUPPA", "Updating product images");
+
+                    DatabaseTask.getInstance(getApplication()).update(product);
+                }
+            });
+
+            savePriceBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    product.setPriceAlreadyRetrieved(true);
+                    DatabaseTask.getInstance(getApplication()).update(product);
+                    savePriceBtn.setVisibility(View.GONE);
+                }
+            });
+
+            // Ingredients list init
+            String[] ingredientsArray;
+            try {
+                ingredientsArray = product.getIngredients().split(", ");
+            } catch (Exception e) {
+                ingredientsArray = new String[0];
+            }
+
+            LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+            ingredients.setLayoutManager(layoutManager);
+            IngredientAdapter adapter = new IngredientAdapter(ingredientsArray);
+            ingredients.setAdapter(adapter);
+
+            openOnOffBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://fr.openfoodfacts.org/produit/" + product.getGtin()));
+                    startActivity(browserIntent);
+                }
+            });
+
+
+
+            /**
+             * Socket related
+             * It uses websockets (socket.io) to connect to an external server.
+             * We send two requests to this server:
+             *      - Get the product price (only available at Carrefour)
+             *      - Get better images for this product
+             */
+            if(isAutomaticSearchOn) {
+
+                Log.i("DEVUPPAPREFS", "DARK MODE ON");
+
+                try {
+                    socket = IO.socket("http://51.83.46.109:9091");
+                    socket.connect();
+
+                    JSONObject data = new JSONObject("{data: {gtin: " + product.getGtin() + ", id: " + socket.id() + "}}");
+
+                    if (!product.getPriceAlreadyRetrieved()) {
+                        socket.emit("getPriceCarrefour", data);
+                    } else {
+                        carrefourPriceLoader.setVisibility(View.GONE);
+                        carrefourPrice.setText("Carrefour: " + product.getPrice());
+                    }
+
+                    if(!product.getImagesAlreadyRetrieved()) {
+                        socket.emit("getImages", data);
+                    } else {
+                        imagesLoader.setVisibility(View.GONE);
+                        searchOtherImagesText.setVisibility(View.GONE);
+                    }
+
+
+                    socket.on("getImagesResponse", getImagesResponse);
+                    socket.on("getPriceCarrefourResponse", getPriceCarrefourResponse);
+                } catch (JSONException e) {
+                    Log.i("DEVUPPA", e.getMessage());
+                } catch (URISyntaxException e) {
+                    Log.i("DEVUPPA", e.getMessage());
+                }
+            } else {
+                carrefourPriceLoader.setVisibility(View.GONE);
+                imagesLoader.setVisibility(View.GONE);
+                searchOtherImagesText.setVisibility(View.GONE);
+            }
+
         } else {
-            carrefourPriceLoader.setVisibility(View.GONE);
-            imagesLoader.setVisibility(View.GONE);
-            searchOtherImagesText.setVisibility(View.GONE);
+            final String gtin = intent.getStringExtra(PRODUCT_GTIN);
+            for(int i = 0; i < mainLayout.getChildCount(); i++) {
+                if(mainLayout.getChildAt(i).getId() != R.id.noProductTitle) {
+                    mainLayout.getChildAt(i).setVisibility(View.GONE);
+                }
+            }
+
+            noProductTitle.setVisibility(View.VISIBLE);
+            noProductTitle.setText("Le produit " + gtin + " n'a pas été trouvé sur Open Food Facts.");
+
+            addProductOFF.setVisibility(View.VISIBLE);
+            addProductOFF.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://fr.openfoodfacts.org/produit/" + gtin));
+                    startActivity(browserIntent);
+                }
+            });
         }
     }
-
-
-
 
 
     private void displayImages(JSONArray images) throws JSONException{
@@ -324,7 +374,6 @@ public class ProductActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Glide.with(this).clear(viewPager);
         finish();
     }

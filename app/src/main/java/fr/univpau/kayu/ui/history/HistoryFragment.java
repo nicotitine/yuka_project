@@ -40,9 +40,17 @@ public class HistoryFragment extends Fragment {
                 AppDatabase.getAppDatabase(getContext()).productDao().getByGtin(productsDescription[position]).observe(getViewLifecycleOwner(), new Observer<Product>() {
                     @Override
                     public void onChanged(Product product) {
-                        Log.i("DEVUPPAITEMCLICK", product.toString());
+
                         Intent productActivity = new Intent(getContext(), ProductActivity.class);
-                        productActivity.putExtra(ProductActivity.PRODUCT_EXTRA_PARAM, product);
+
+                        if(product != null) {
+                            productActivity.putExtra(ProductActivity.PRODUCT_EXTRA_PARAM, product);
+                            productActivity.putExtra(ProductActivity.PRODUCT_FOUND, true);
+                        } else {
+                            productActivity.putExtra(ProductActivity.PRODUCT_FOUND, false);
+                            productActivity.putExtra(ProductActivity.PRODUCT_GTIN, "");
+                        }
+
                         startActivity(productActivity);
                     }
                 });

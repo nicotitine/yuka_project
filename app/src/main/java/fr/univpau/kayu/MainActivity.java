@@ -13,6 +13,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import fr.univpau.kayu.db.AppDatabase;
 import fr.univpau.kayu.db.DatabaseTask;
 import fr.univpau.kayu.ui.scan.ScanFragment;
 
@@ -43,6 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
+
+
         if(requestCode == ScanFragment.JSON_REQUEST_CODE) {
             switch (resultCode) {
                 case OFFIntentService.RESULT_CODE:
@@ -53,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if(requestCode == ScanFragment.PREVIEW_REQUEST_CODE && data.getExtras() != null) {
+        if(requestCode == ScanFragment.PREVIEW_REQUEST_CODE) {
             try {
                 JSONObject json = new JSONObject(data.getExtras().get(OFFIntentService.JSON_RESULT_EXTRA).toString());
                 int status = json.getInt("status");
@@ -64,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.i("DEVUPPA", "RESPONSE");
 
                     if(frag != null) {
-                        frag.update(product);
+                        //frag.update(product);
                     } else {
 //                        ScanFragment newFrag = new ScanFragment();
 //                        Bundle args = new Bundle();
@@ -78,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
 //
 //                        trans.commit();
                     }
+                } else {
+                    Log.i("DEVUPPA", "Product nt found");
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -95,18 +101,27 @@ public class MainActivity extends AppCompatActivity {
         try {
             JSONObject json = new JSONObject(result);
             int status = json.getInt("status");
+            Intent productActivity = new Intent(this, ProductActivity.class);
 
             if(status == 1) {
+
                 JSONObject product = json.getJSONObject("product");
+
                 Product pro = new Product(product);
                 DatabaseTask.getInstance(getApplication()).insert(pro);
-                Intent productActivity = new Intent(this, ProductActivity.class);
+
+                productActivity.putExtra(ProductActivity.PRODUCT_FOUND, true);
                 productActivity.putExtra(ProductActivity.PRODUCT_EXTRA_PARAM, pro);
-                startActivity(productActivity);
+
+            } else {
+                Log.i("DEVUPPA", "Product not found");
+                productActivity.putExtra(ProductActivity.PRODUCT_FOUND, false);
+                productActivity.putExtra(ProductActivity.PRODUCT_GTIN, json.getString("code"));
             }
+
+            startActivity(productActivity);
         } catch (JSONException e) {
             Log.i("DEVUPPA", e.getMessage());
         }
     }
-
 }
