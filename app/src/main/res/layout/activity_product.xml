@@ -13,26 +13,6 @@
         android:layout_height="wrap_content">
 
 
-        <Button
-            android:id="@+id/openOnOffBtn2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="16dp"
-            android:background="@color/colorPrimary"
-            android:drawableRight="@drawable/ic_open_in_new_white_24dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/detailsOFF"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
-
         <TextView
             android:id="@+id/productName"
             android:layout_width="wrap_content"
@@ -220,7 +200,7 @@
         <androidx.viewpager.widget.ViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="100dp"
             android:layout_marginTop="8dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/hideOtherImagesInfoBtn" />
@@ -271,27 +251,23 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/ingredients" />
 
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="wrap_content"
+        <LinearLayout
+
+            android:id="@+id/nutriscoreLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:text="This will be the nutriscore"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productNutriscore" />
+            app:layout_constraintTop_toBottomOf="@+id/productNutriscore"></LinearLayout>
 
         <Button
             android:id="@+id/openOnOffBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
             android:layout_marginTop="16dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginBottom="16dp"
             android:background="@color/colorPrimary"
             android:drawableRight="@drawable/ic_open_in_new_white_24dp"
             android:paddingLeft="10dp"
@@ -299,10 +275,9 @@
             android:text="@string/detailsOFF"
             android:textColor="@android:color/white"
             android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" />
+            app:layout_constraintTop_toBottomOf="@+id/nutriscoreLayout" />
 
         <TextView
             android:id="@+id/noProductTitle"
@@ -336,6 +311,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/noProductTitle" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

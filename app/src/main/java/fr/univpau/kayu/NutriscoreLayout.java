@@ -2,6 +2,7 @@ package fr.univpau.kayu;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,8 +32,13 @@ public class NutriscoreLayout extends LinearLayout {
     private TextView sodiumPortion;
     private TextView scorePortion;
 
+    private Nutriscore nutriscore;
+
     public NutriscoreLayout(Context context, String nutriscore) {
         super(context);
+
+        this.nutriscore = new Nutriscore(nutriscore);
+
         this.initComponent(context);
 
     }
@@ -64,6 +70,23 @@ public class NutriscoreLayout extends LinearLayout {
         sodiumPortion = v.findViewById(R.id.sodium_portion);
         scorePortion = v.findViewById(R.id.score_portion);
 
+
+
+        energy100g.setText(this.nutriscore.getEnergy100g());
+        fat100g.setText(this.nutriscore.getFat100g());
+        sugars100g.setText(this.nutriscore.getSugars100g());
+        fiber100g.setText(this.nutriscore.getFiber100g());
+        proteins100g.setText(this.nutriscore.getProteins100g());
+        sodium100g.setText(this.nutriscore.getSodium100g());
+        score100g.setText(this.nutriscore.getScore100g());
+
+        energyPortion.setText(this.nutriscore.getEnergyPortion());
+        fatPortion.setText(this.nutriscore.getFatPortion());
+        sugarsPortion.setText(this.nutriscore.getSugarsPortion());
+        fiberPortion.setText(this.nutriscore.getFiberPortion());
+        proteinsPortion.setText(this.nutriscore.getProteinsPortion());
+        sodiumPortion.setText(this.nutriscore.getSodiumPortion());
+        scorePortion.setText(this.nutriscore.getScorePortion());
 
 
         this.addView(v);

@@ -23,13 +23,12 @@
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="Informations nutritionelles"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:paddingLeft="4dp"
             android:paddingTop="4dp"
             android:paddingRight="4dp"
-            android:paddingBottom="4dp" />
+            android:paddingBottom="4dp"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -38,13 +37,13 @@
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="Pour 100g"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:paddingLeft="4dp"
             android:paddingTop="4dp"
             android:paddingRight="4dp"
-            android:paddingBottom="4dp" />
+            android:paddingBottom="4dp"
+            android:text="Pour 100g"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -53,13 +52,13 @@
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center"
-            android:text="Par portion"
-            android:textSize="16sp"
-            android:textStyle="bold"
             android:paddingLeft="4dp"
             android:paddingTop="4dp"
             android:paddingRight="4dp"
-            android:paddingBottom="4dp" />
+            android:paddingBottom="4dp"
+            android:text="Par portion"
+            android:textSize="14sp"
+            android:textStyle="bold" />
     </TableRow>
 
     <TableRow
@@ -80,8 +79,7 @@
             android:paddingTop="4dp"
             android:paddingRight="4dp"
             android:paddingBottom="4dp"
-            android:text="Energie"
-            android:textSize="14sp" />
+            android:text="Energie" />
 
         <TextView
             android:id="@+id/energy_100g"
@@ -117,12 +115,11 @@
             android:layout_margin="1dp"
             android:background="#FFFFFF"
             android:gravity="center_vertical"
-            android:text="Matières grasses\n\tdont acides gras saturés"
-            android:textSize="14dp"
             android:paddingLeft="4dp"
             android:paddingTop="4dp"
             android:paddingRight="4dp"
-            android:paddingBottom="4dp"/>
+            android:paddingBottom="4dp"
+            android:text="Matières grasses\n\tdont acides gras saturés" />
 
 
         <TextView

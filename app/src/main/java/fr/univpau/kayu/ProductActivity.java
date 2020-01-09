@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -57,6 +58,7 @@ public class ProductActivity extends AppCompatActivity {
     private Button openOnOffBtn;
     private ViewPager viewPager;
     private CircleIndicator indicator;
+    private LinearLayout nutriscoreLayout;
     private TextView noProductTitle;
     private Button addProductOFF;
     private String[] images;
@@ -97,6 +99,7 @@ public class ProductActivity extends AppCompatActivity {
         openOnOffBtn = findViewById(R.id.openOnOffBtn);
         viewPager = findViewById(R.id.viewPager);
         indicator = findViewById(R.id.indicator);
+        nutriscoreLayout = findViewById(R.id.nutriscoreLayout);
         noProductTitle = findViewById(R.id.noProductTitle);
         addProductOFF = findViewById(R.id.addProductOFF);
 
@@ -209,6 +212,13 @@ public class ProductActivity extends AppCompatActivity {
             ingredients.setLayoutManager(layoutManager);
             IngredientAdapter adapter = new IngredientAdapter(ingredientsArray);
             ingredients.setAdapter(adapter);
+
+
+            NutriscoreLayout nutriscoreLayout = new NutriscoreLayout(this, product.getNutriscore());
+
+            this.nutriscoreLayout.addView(nutriscoreLayout.getRootView());
+
+
 
             openOnOffBtn.setOnClickListener(new View.OnClickListener() {
                 @Override

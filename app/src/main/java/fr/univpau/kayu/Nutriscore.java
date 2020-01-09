@@ -26,16 +26,34 @@ public class Nutriscore {
             JSONObject json = new JSONObject(nutriscore);
 
             try {
-                fat100g = json.getString("fat_100g") + json.getString("fat_unit");
-                fatPortion = json.getString("fat_serving") + json.getString("fat_unit");
+                fat100g = json.getString("fat_100g")
+                        + json.getString("fat_unit")
+                        + "\n"
+                        + json.getString("saturated-fat_100g")
+                        + json.getString("saturated-fat_unit");
+
+                fatPortion = json.getString("fat_serving")
+                        + json.getString("fat_unit")
+                        + "\n"
+                        + json.getString("saturated-fat_serving")
+                        + json.getString("saturated-fat_unit");
             } catch (JSONException e) {
                 fat100g = "";
                 fatPortion = "";
             }
 
             try {
-                sugars100g = json.getString("sugars_100g") + json.getString("sugars_unit");
-                sugarsPortion = json.getString("sugars_serving") + json.getString("sugars_unit");
+                sugars100g = json.getString("carbohydrates_100g")
+                        + json.getString("carbohydrates_unit")
+                        + "\n"
+                        + json.getString("sugars_100g")
+                        + json.getString("sugars_unit");
+
+                sugarsPortion = json.getString("carbohydrates_serving")
+                        + json.getString("carbohydrates_unit")
+                        + "\n"
+                        + json.getString("sugars_serving")
+                        + json.getString("sugars_unit");
             } catch (JSONException e) {
                 sugars100g = "";
                 sugarsPortion = "";

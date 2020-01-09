@@ -43,6 +43,9 @@ public class Product implements Serializable {
     @ColumnInfo(name = "ingredients")
     private String ingredients;
 
+    @ColumnInfo(name = "nutriscore")
+    private String nutriscore;
+
 
     public Product() {
 
@@ -101,6 +104,8 @@ public class Product implements Serializable {
 
             Log.i("DEVUPPAINGREDIENTS", ingredients);
 
+            this.nutriscore = from.getJSONObject("nutriments").toString();
+
         } catch (JSONException e) {
             Log.i("DEVUPPA", e.getMessage());
         }
@@ -144,6 +149,8 @@ public class Product implements Serializable {
 
     public String getIngredients() { return this.ingredients; }
 
+    public String getNutriscore() { return this.nutriscore; }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -169,4 +176,6 @@ public class Product implements Serializable {
     public void setPriceAlreadyRetrieved(boolean priceAlreadyRetrieved) { this.priceAlreadyRetrieved = priceAlreadyRetrieved; }
 
     public void setIngredients(String ingredients) { this.ingredients = ingredients; }
+
+    public void setNutriscore(String nutriscore) { this.nutriscore = nutriscore; }
 }
