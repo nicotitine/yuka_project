@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import java.util.List;
@@ -23,8 +24,9 @@ public class HistoryFragment extends Fragment {
     private HistoryViewModel historyViewModel;
     private ListView list;
     private String[] productsName;
-    private String[] productsDescription;
+    private String[] productGtin;
     private String[] productsImage;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -37,23 +39,31 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("DEVUPPAITEMCLICK", new Integer(position).toString());
-                AppDatabase.getAppDatabase(getContext()).productDao().getByGtin(productsDescription[position]).observe(getViewLifecycleOwner(), new Observer<Product>() {
-                    @Override
-                    public void onChanged(Product product) {
 
-                        Intent productActivity = new Intent(getContext(), ProductActivity.class);
+                Intent productActivity = new Intent(getContext(), ProductActivity.class);
 
-                        if(product != null) {
-                            productActivity.putExtra(ProductActivity.PRODUCT_EXTRA_PARAM, product);
-                            productActivity.putExtra(ProductActivity.PRODUCT_FOUND, true);
-                        } else {
-                            productActivity.putExtra(ProductActivity.PRODUCT_FOUND, false);
-                            productActivity.putExtra(ProductActivity.PRODUCT_GTIN, "");
-                        }
+                productActivity.putExtra(ProductActivity.PRODUCT_GTIN, productGtin[position]);
 
-                        startActivity(productActivity);
-                    }
-                });
+                startActivity(productActivity);
+
+//                AppDatabase.getAppDatabase(getContext()).productDao().getByGtin(productGtin[position]).observe(getViewLifecycleOwner(), new Observer<Product>() {
+//                    @Override
+//                    public void onChanged(Product product) {
+//
+//
+//                        Intent productActivity = new Intent(getContext(), ProductActivity.class);
+//
+//                        if(product != null) {
+//                            productActivity.putExtra(ProductActivity.PRODUCT_EXTRA_PARAM, product);
+//                            productActivity.putExtra(ProductActivity.PRODUCT_FOUND, true);
+//                        } else {
+//                            productActivity.putExtra(ProductActivity.PRODUCT_FOUND, false);
+//                            productActivity.putExtra(ProductActivity.PRODUCT_GTIN, "");
+//                        }
+//
+//                        startActivity(productActivity);
+//                    }
+//                });
             }
         });
 
@@ -61,17 +71,17 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onChanged(List<Product> products) {
                 productsName = new String[products.size()];
-                productsDescription = new String[products.size()];
+                productGtin = new String[products.size()];
                 productsImage = new String[products.size()];
 
                 for(int i = 0; i < products.size(); i++) {
                     productsName[i] = products.get(i).getName();
-                    productsDescription[i] = products.get(i).getGtin();
+                    productGtin[i] = products.get(i).getGtin();
                     String[] images = products.get(i).getImages().split(", ");
                     productsImage[i] = images[0];
                 }
 
-                ProductAdapter adapter = new ProductAdapter(getActivity(), productsName, productsDescription, productsImage);
+                ProductAdapter adapter = new ProductAdapter(getActivity(), productsName, productGtin, productsImage);
                 list.setAdapter(adapter);
                 Log.i("DEVUPPA", ((Integer)products.size()).toString() + " produits danss la db");
             }

@@ -6,6 +6,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.Switch;
 
@@ -15,12 +16,15 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 
 import fr.univpau.kayu.R;
+import fr.univpau.kayu.db.AppDatabase;
+import fr.univpau.kayu.db.DatabaseTask;
 
 public class SettingsFragment extends Fragment {
 
     private SettingsViewModel settingsViewModel;
     private Switch darkThemeSwitch;
     private Switch automaticSearchSwitch;
+    private Button deleteHistoryBtn;
 
 
     public View onCreateView(@NonNull LayoutInflater layoutInflater,
@@ -31,6 +35,7 @@ public class SettingsFragment extends Fragment {
 
         darkThemeSwitch = root.findViewById(R.id.darkThemeSwitch);
         automaticSearchSwitch = root.findViewById(R.id.automaticSearchSwitch);
+        deleteHistoryBtn = root.findViewById(R.id.deleteHistoryBtn);
 
         SharedPreferences prefs = getActivity().getSharedPreferences("preferences", 0);
         final SharedPreferences.Editor editor = prefs.edit();
@@ -38,13 +43,9 @@ public class SettingsFragment extends Fragment {
         boolean isDarkThemeOn = prefs.getBoolean("isDarkThemeOn", false);
         boolean isAutomaticSearchOn = prefs.getBoolean("isAutomaticSearchOn", true);
 
-
         darkThemeSwitch.setChecked(isDarkThemeOn);
         automaticSearchSwitch.setChecked(isAutomaticSearchOn);
 
-        if(isDarkThemeOn) {
-
-        }
 
 
         darkThemeSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -69,7 +70,12 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-
+        deleteHistoryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseTask.getInstance(getActivity().getApplication()).deleteAll();
+            }
+        });
 
         return root;
     }

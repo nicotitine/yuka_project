@@ -1,5 +1,6 @@
 package fr.univpau.kayu;
 
+import android.database.Observable;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -11,7 +12,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
 
-@Entity
+@Entity(tableName = "Products")
 public class Product implements Serializable {
 
     @ColumnInfo(name = "name")
@@ -45,6 +46,9 @@ public class Product implements Serializable {
 
     @ColumnInfo(name = "nutriscore")
     private String nutriscore;
+
+    @ColumnInfo(name = "nutriscore_grade")
+    private String nutriscoreGrade;
 
 
     public Product() {
@@ -106,6 +110,8 @@ public class Product implements Serializable {
 
             this.nutriscore = from.getJSONObject("nutriments").toString();
 
+            this.nutriscoreGrade = from.getString("nutriscore_grade").toUpperCase();
+
         } catch (JSONException e) {
             Log.i("DEVUPPA", e.getMessage());
         }
@@ -151,6 +157,8 @@ public class Product implements Serializable {
 
     public String getNutriscore() { return this.nutriscore; }
 
+    public String getNutriscoreGrade() { return this.nutriscoreGrade; }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -178,4 +186,6 @@ public class Product implements Serializable {
     public void setIngredients(String ingredients) { this.ingredients = ingredients; }
 
     public void setNutriscore(String nutriscore) { this.nutriscore = nutriscore; }
+
+    public void setNutriscoreGrade(String nutriscoreGrade) { this.nutriscoreGrade = nutriscoreGrade; }
 }

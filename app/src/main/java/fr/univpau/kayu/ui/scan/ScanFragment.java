@@ -35,6 +35,7 @@ import org.json.JSONObject;
 import java.io.IOException;
 
 import fr.univpau.kayu.OFFIntentService;
+import fr.univpau.kayu.ProductActivity;
 import fr.univpau.kayu.R;
 
 public class ScanFragment extends Fragment implements View.OnClickListener {
@@ -50,7 +51,7 @@ public class ScanFragment extends Fragment implements View.OnClickListener {
 
 
 
-    public static final int JSON_REQUEST_CODE = 0;
+
     public static final int PREVIEW_REQUEST_CODE = 1;
     public static final String RESULT_OFF_ARG = "off_arg";
 
@@ -113,47 +114,22 @@ public class ScanFragment extends Fragment implements View.OnClickListener {
                             vibrator.vibrate(200);
                             String gtin = codes.valueAt(0).displayValue;
                             cameraSource.stop();
-                            searchBtn.setText("");
+                            searchBtn.setText(R.string.empty);
                             progressBar.setVisibility(View.VISIBLE);
-                            launchGtinIntent(gtin, JSON_REQUEST_CODE);
+                            launchProductActivity(gtin);
                         }
                     });
                 }
             }
         });
 
-
-        gtinInput.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(s.length() == 8 || s.length() == 12 || s.length() == 13) {
-//                    String gtin = gtinInput.getText().toString();
-//                    launchGtinIntent(gtin, PREVIEW_REQUEST_CODE);
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-
-            }
-        });
-
         return root;
     }
 
-    public void launchGtinIntent(String gtin, int requestCode) {
-        PendingIntent pendingResult = getActivity().createPendingResult(requestCode, new Intent(), 0);
-        Intent intent = new Intent(getContext(), OFFIntentService.class);
-        intent.putExtra(OFFIntentService.URL_EXTRA, "https://world.openfoodfacts.org/api/v0/product/" + gtin + ".json");
-        intent.putExtra(OFFIntentService.PENDING_RESULT_EXTRA, pendingResult);
-        getActivity().startService(intent);
-
-        Log.i("DEVUPPA", "SERVICE STARTED");
+    public void launchProductActivity(String gtin) {
+        Intent productActivity = new Intent(getContext(), ProductActivity.class);
+        productActivity.putExtra(ProductActivity.PRODUCT_GTIN, gtin);
+        startActivity(productActivity);
     }
 
 
@@ -164,22 +140,8 @@ public class ScanFragment extends Fragment implements View.OnClickListener {
 
                 String gtin = gtinInput.getText().toString();
                 Log.i("DEVUPPAGTIN", gtin);
-                launchGtinIntent(gtin, JSON_REQUEST_CODE);
+                launchProductActivity(gtin);
                 break;
-        }
-    }
-
-    public void update(JSONObject product) {
-
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        try {
-            finalize();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
         }
     }
 }

@@ -1,9 +1,7 @@
 package fr.univpau.kayu;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -11,12 +9,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import fr.univpau.kayu.db.AppDatabase;
-import fr.univpau.kayu.db.DatabaseTask;
-import fr.univpau.kayu.ui.scan.ScanFragment;
 
 public class MainActivity extends AppCompatActivity {
     @Override
@@ -40,88 +32,6 @@ public class MainActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-
-
-        if(requestCode == ScanFragment.JSON_REQUEST_CODE) {
-            switch (resultCode) {
-                case OFFIntentService.RESULT_CODE:
-                    handleResponse(data);
-                    break;
-                default:
-                    Log.i("DEVUPPA", new Integer(resultCode).toString());
-            }
-        }
-
-        if(requestCode == ScanFragment.PREVIEW_REQUEST_CODE) {
-            try {
-                JSONObject json = new JSONObject(data.getExtras().get(OFFIntentService.JSON_RESULT_EXTRA).toString());
-                int status = json.getInt("status");
-
-                if(status == 1) {
-                    JSONObject product = json.getJSONObject("product");
-                    ScanFragment frag = (ScanFragment)getSupportFragmentManager().findFragmentById(R.id.navigation_scan);
-                    Log.i("DEVUPPA", "RESPONSE");
-
-                    if(frag != null) {
-                        //frag.update(product);
-                    } else {
-//                        ScanFragment newFrag = new ScanFragment();
-//                        Bundle args = new Bundle();
-//
-//                        args.putString(ScanFragment.RESULT_OFF_ARG, product.toString());
-//                        newFrag.setArguments(args);
-//
-//                        FragmentTransaction trans = getSupportFragmentManager().beginTransaction();
-//                        trans.replace(R.id.navigation_scan, newFrag);
-//                        trans.addToBackStack(null);
-//
-//                        trans.commit();
-                    }
-                } else {
-                    Log.i("DEVUPPA", "Product nt found");
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void handleResponse(Intent data) {
-
-
-        String result = data.getExtras().get(OFFIntentService.JSON_RESULT_EXTRA).toString();
-
-        try {
-            JSONObject json = new JSONObject(result);
-            int status = json.getInt("status");
-            Intent productActivity = new Intent(this, ProductActivity.class);
-
-            if(status == 1) {
-
-                JSONObject product = json.getJSONObject("product");
-
-                Product pro = new Product(product);
-                DatabaseTask.getInstance(getApplication()).insert(pro);
-
-                productActivity.putExtra(ProductActivity.PRODUCT_FOUND, true);
-                productActivity.putExtra(ProductActivity.PRODUCT_EXTRA_PARAM, pro);
-
-            } else {
-                Log.i("DEVUPPA", "Product not found");
-                productActivity.putExtra(ProductActivity.PRODUCT_FOUND, false);
-                productActivity.putExtra(ProductActivity.PRODUCT_GTIN, json.getString("code"));
-            }
-
-            startActivity(productActivity);
-        } catch (JSONException e) {
-            Log.i("DEVUPPA", e.getMessage());
         }
     }
 }

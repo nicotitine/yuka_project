@@ -39,29 +39,27 @@ public class DatabaseTask {
                 } catch (SQLiteConstraintException e) {
                     e.printStackTrace();
                 }
-
             }
         });
-
-        try {
-            finalize();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
     }
 
     public void update(final Product product) {
+
         mExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 myDatabase.productDao().update(product);
-
             }
         });
-        try {
-            finalize();
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        }
+
+    }
+
+    public void deleteAll() {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                myDatabase.productDao().deleteAll();
+            }
+        });
     }
 }

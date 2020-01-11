@@ -19,4 +19,16 @@
     <string name="nutriscore">Nutriscore</string>
     <string name="detailsOFF">Plus de détails sur OpenFoodFacts.com</string>
     <string name="addProductOFF">Renseigner ce produit sur OpenFoodFacts.com</string>
+
+    <string name="betterImagesFound"> images pouvant être de meilleure qualité ont été trouvées !</string>
+    <string name="noAdditionalImages">Aucune image additionnelle n\'a été trouvée.</string>
+    <string name="carrefour">Carrefour</string>
+    <string name="carrefourList">Carrefour:</string>
+    <string name="currency">€</string>
+    <string name="priceNotFound">Prix introuvable.</string>
+
+    <string name="theProduct">Le produit </string>
+    <string name="hasNotBeenFound"> n\'a pas été trouvé sur Open Food Facts.</string>
+
+    <string name="empty"></string>
 </resources>

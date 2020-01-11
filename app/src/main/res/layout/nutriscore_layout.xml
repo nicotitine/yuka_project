@@ -1,344 +1,387 @@
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-
-    android:layout_width="fill_parent"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center"
-    android:stretchColumns="0,1,2">
+    android:orientation="vertical">
 
-
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:background="#000000"
-
-
-        >
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"
-            android:textSize="14sp"
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nutriscore"
+            android:textSize="24sp"
             android:textStyle="bold" />
 
-        <TextView
+        <ImageView
+            android:id="@+id/nutriscoreImage"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="1"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"
-            android:text="Pour 100g"
-            android:textSize="14sp"
-            android:textStyle="bold" />
+            android:layout_height="40dp"
+            tools:srcCompat="@tools:sample/avatars[0]" />
+    </LinearLayout>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"
-            android:text="Par portion"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </TableRow>
+    <TableLayout
 
-    <TableRow
         android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"
-            android:text="Energie" />
-
-        <TextView
-            android:id="@+id/energy_100g"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="1"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
-
-        <TextView
-            android:id="@+id/energy_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
-    </TableRow>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:stretchColumns="0,1,2">
 
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"
-            android:text="Matières grasses\n\tdont acides gras saturés" />
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorText"
 
 
-        <TextView
-            android:id="@+id/fat_100g"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="1"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
+            >
 
-        <TextView
-            android:id="@+id/fat_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
-    </TableRow>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp"
+                android:textSize="14sp"
+                android:textStyle="bold" />
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Pour 100g"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical"
-            android:text="Glucides\n\tdont sucres"
-            android:textSize="14dp"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp"
+                android:text="Par portion"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+        </TableRow>
 
-        <TextView
-            android:id="@+id/sugars_100g"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="1"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorText">
 
-        <TextView
-            android:id="@+id/sugars_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
-    </TableRow>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="Energie"
+                android:textSize="12sp" />
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
+            <TextView
+                android:id="@+id/energy_100g"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical"
-            android:text="Fibres alimentaires"
-            android:textSize="14dp"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/energy_portion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+        </TableRow>
 
-        <TextView
-            android:id="@+id/fiber_100g"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="1"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
 
-        <TextView
-            android:id="@+id/fiber_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
-    </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorText">
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="Matières grasses\n\tdont acides gras saturés"
+                android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical"
-            android:text="Protéines"
-            android:textSize="14dp"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/fat_100g"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
 
-        <TextView
-            android:id="@+id/proteins_100g"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="1"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
+            <TextView
+                android:id="@+id/fat_portion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+        </TableRow>
 
-        <TextView
-            android:id="@+id/proteins_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
-    </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorText">
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="Glucides\n\tdont sucres"
+                android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical"
-            android:text="Sel\n\tSodium"
-            android:textSize="14dp"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/sugars_100g"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
 
-        <TextView
-            android:id="@+id/sodium_100g"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="1"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
+            <TextView
+                android:id="@+id/sugars_portion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+        </TableRow>
 
-        <TextView
-            android:id="@+id/sodium_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
-    </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorText">
 
-    <TableRow
-        android:layout_width="fill_parent"
-        android:layout_height="0dp"
-        android:layout_margin="1dp"
-        android:layout_weight="1"
-        android:background="#000000">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="Fibres alimentaires"
+                android:textSize="12sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_column="0"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center_vertical"
-            android:text="Score nutritionnel - France\n\tNutri-score"
-            android:textSize="14dp"
-            android:paddingLeft="4dp"
-            android:paddingTop="4dp"
-            android:paddingRight="4dp"
-            android:paddingBottom="4dp"/>
+            <TextView
+                android:id="@+id/fiber_100g"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
 
-        <TextView
-            android:id="@+id/score_100g"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="1"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
+            <TextView
+                android:id="@+id/fiber_portion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+        </TableRow>
 
-        <TextView
-            android:id="@+id/score_portion"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_column="2"
-            android:layout_margin="1dp"
-            android:background="#FFFFFF"
-            android:gravity="center" />
-    </TableRow>
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorText">
 
-</TableLayout>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="Protéines"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/proteins_100g"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+
+            <TextView
+                android:id="@+id/proteins_portion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorText">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="Sel\n\tSodium"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/sodium_100g"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+
+            <TextView
+                android:id="@+id/sodium_portion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@color/colorText">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center_vertical"
+                android:padding="4dp"
+                android:text="Score nutritionnel - France\n\tNutri-score"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/score_100g"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="1"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+
+            <TextView
+                android:id="@+id/score_portion"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_column="2"
+                android:layout_marginLeft="1dp"
+                android:layout_marginRight="1dp"
+                android:layout_marginBottom="1dp"
+                android:background="@color/colorBackground"
+                android:gravity="center"
+                android:padding="4dp" />
+        </TableRow>
+
+    </TableLayout>
+</LinearLayout>

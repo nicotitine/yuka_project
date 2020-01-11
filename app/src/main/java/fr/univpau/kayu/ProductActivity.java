@@ -3,9 +3,14 @@ package fr.univpau.kayu;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
+
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,7 +32,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.net.URISyntaxException;
+
+import fr.univpau.kayu.db.AppDatabase;
 import fr.univpau.kayu.db.DatabaseTask;
+import fr.univpau.kayu.ui.scan.ScanFragment;
 import me.relex.circleindicator.CircleIndicator;
 
 public class ProductActivity extends AppCompatActivity {
@@ -37,6 +45,7 @@ public class ProductActivity extends AppCompatActivity {
     public static final String PRODUCT_GTIN =  "product_gtin";
 
     private boolean isProductFound;
+    private boolean isAutomaticSearchOn;
 
 
     private ScrollView scrollView;
@@ -58,7 +67,7 @@ public class ProductActivity extends AppCompatActivity {
     private Button openOnOffBtn;
     private ViewPager viewPager;
     private CircleIndicator indicator;
-    private LinearLayout nutriscoreLayout;
+    private LinearLayout nutriscoreLinearLayout;
     private TextView noProductTitle;
     private Button addProductOFF;
     private String[] images;
@@ -70,6 +79,12 @@ public class ProductActivity extends AppCompatActivity {
 
     private Product product;
 
+    private LiveData<Product> mProduct;
+
+    private String productGtinFromIntent;
+
+    private NutriscoreLayout nutriscoreLayout;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +92,7 @@ public class ProductActivity extends AppCompatActivity {
 
         // Preference handling
         SharedPreferences prefs = getSharedPreferences("preferences", 0);
-        boolean isAutomaticSearchOn = prefs.getBoolean("isAutomaticSearchOn", true);
+        isAutomaticSearchOn = prefs.getBoolean("isAutomaticSearchOn", true);
 
         // All UI elements
         scrollView = findViewById(R.id.scrollView);
@@ -99,27 +114,49 @@ public class ProductActivity extends AppCompatActivity {
         openOnOffBtn = findViewById(R.id.openOnOffBtn);
         viewPager = findViewById(R.id.viewPager);
         indicator = findViewById(R.id.indicator);
-        nutriscoreLayout = findViewById(R.id.nutriscoreLayout);
+        nutriscoreLinearLayout = findViewById(R.id.nutriscoreLayout);
         noProductTitle = findViewById(R.id.noProductTitle);
         addProductOFF = findViewById(R.id.addProductOFF);
-
 
         // Display back button at the top left corner.
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         // Intent params handling
         Intent intent = getIntent();
-        isProductFound = intent.getBooleanExtra(PRODUCT_FOUND, false);
+        productGtinFromIntent = intent.getStringExtra(PRODUCT_GTIN);
+
+
+
+        // Get the product from the database
+        mProduct = AppDatabase.getAppDatabase(getApplicationContext()).productDao().getByGtin(productGtinFromIntent);
+        mProduct.observe(this, new Observer<Product>() {
+            @Override
+            public void onChanged(Product _product) {
+                if(_product != null) {
+                    product = _product;
+                    isProductFound = true;
+                } else {
+                    isProductFound = false;
+                    PendingIntent pendingResult = createPendingResult(OFFIntentService.JSON_REQUEST_CODE, new Intent(), 0);
+                    Intent newIntent = new Intent(ProductActivity.this, OFFIntentService.class);
+                    newIntent.putExtra(OFFIntentService.URL_EXTRA, "https://world.openfoodfacts.org/api/v0/product/" + productGtinFromIntent + ".json");
+                    newIntent.putExtra(OFFIntentService.PENDING_RESULT_EXTRA, pendingResult);
+                    startService(newIntent);
+                }
+
+                init();
+            }
+        });
+    }
+
+    private void init() {
 
         if(isProductFound) {
-            // Start of init if product have been found
-            product = (Product)intent.getSerializableExtra(PRODUCT_EXTRA_PARAM);
-
             // Set UI elements text
             productName.setText(product.getName());
             productGtin.setText(product.getGtin());
             productQuantity.setText(product.getQuantity());
-            carrefourPrice.setText("Carrefour: " + product.getPrice());
+            carrefourPrice.setText(getString(R.string.carrefourList) + product.getPrice());
 
             // Transform "image1, image2" to ["image1", "image2]
             try {
@@ -131,16 +168,14 @@ public class ProductActivity extends AppCompatActivity {
             imagesTitle.setText(getString(R.string.product_images) + " (" + images.length + ")");
 
             // Carousel init
-            ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(this, images, viewPager);
-            viewPager.setAdapter(imagePagerAdapter);
-            indicator.setViewPager(viewPager);
-            imagePagerAdapter.registerDataSetObserver(indicator.getDataSetObserver());
+           initCarousel();
 
             displayImagesBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     previousImages = images;
                     images = newImages;
+                    initCarousel();
                     displayImagesBtn.setVisibility(View.GONE);
                     searchOtherImagesText.setVisibility(View.GONE);
                     hideOtherImagesInfoBtn.setVisibility(View.GONE);
@@ -162,6 +197,7 @@ public class ProductActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     images = previousImages;
+                    initCarousel();
                     cancelOtherImagesBtn.setVisibility(View.GONE);
                 }
             });
@@ -188,6 +224,8 @@ public class ProductActivity extends AppCompatActivity {
                     Log.i("DEVUPPA", "Updating product images");
 
                     DatabaseTask.getInstance(getApplication()).update(product);
+
+
                 }
             });
 
@@ -213,12 +251,9 @@ public class ProductActivity extends AppCompatActivity {
             IngredientAdapter adapter = new IngredientAdapter(ingredientsArray);
             ingredients.setAdapter(adapter);
 
-
-            NutriscoreLayout nutriscoreLayout = new NutriscoreLayout(this, product.getNutriscore());
-
-            this.nutriscoreLayout.addView(nutriscoreLayout.getRootView());
-
-
+            nutriscoreLayout = new NutriscoreLayout(this, product.getNutriscore(), product.getNutriscoreGrade());
+            this.nutriscoreLinearLayout.removeAllViews();
+            this.nutriscoreLinearLayout.addView(nutriscoreLayout.getRootView());
 
             openOnOffBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -251,16 +286,11 @@ public class ProductActivity extends AppCompatActivity {
                         socket.emit("getPriceCarrefour", data);
                     } else {
                         carrefourPriceLoader.setVisibility(View.GONE);
-                        carrefourPrice.setText("Carrefour: " + product.getPrice());
+                        carrefourPrice.setText(getString(R.string.carrefourList) + product.getPrice());
                     }
 
-                    if(!product.getImagesAlreadyRetrieved()) {
-                        socket.emit("getImages", data);
-                    } else {
-                        imagesLoader.setVisibility(View.GONE);
-                        searchOtherImagesText.setVisibility(View.GONE);
-                    }
 
+                    socket.emit("getImages", data);
 
                     socket.on("getImagesResponse", getImagesResponse);
                     socket.on("getPriceCarrefourResponse", getPriceCarrefourResponse);
@@ -276,7 +306,7 @@ public class ProductActivity extends AppCompatActivity {
             }
 
         } else {
-            final String gtin = intent.getStringExtra(PRODUCT_GTIN);
+
             for(int i = 0; i < mainLayout.getChildCount(); i++) {
                 if(mainLayout.getChildAt(i).getId() != R.id.noProductTitle) {
                     mainLayout.getChildAt(i).setVisibility(View.GONE);
@@ -284,22 +314,31 @@ public class ProductActivity extends AppCompatActivity {
             }
 
             noProductTitle.setVisibility(View.VISIBLE);
-            noProductTitle.setText("Le produit " + gtin + " n'a pas été trouvé sur Open Food Facts.");
+            noProductTitle.setText(getString(R.string.theProduct) + productGtinFromIntent + R.string.hasNotBeenFound);
 
             addProductOFF.setVisibility(View.VISIBLE);
             addProductOFF.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://fr.openfoodfacts.org/produit/" + gtin));
+                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://fr.openfoodfacts.org/produit/" + productGtinFromIntent));
                     startActivity(browserIntent);
                 }
             });
         }
     }
 
+    private void initCarousel() {
+        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(this, images, viewPager);
+        viewPager.setAdapter(imagePagerAdapter);
+        indicator.setViewPager(viewPager);
+        imagePagerAdapter.registerDataSetObserver(indicator.getDataSetObserver());
+
+        imagesTitle.setText(getString(R.string.product_images) + " (" + images.length + ")");
+    }
+
 
     private void displayImages(JSONArray images) throws JSONException{
-        searchOtherImagesText.setText(images.length() + " images pouvant être de meilleure qualité ont été trouvées !");
+        searchOtherImagesText.setText(images.length() + getString(R.string.betterImagesFound));
         searchOtherImagesText.setPadding(0, 0, 32, 0);
 
         displayImagesBtn.setVisibility(View.VISIBLE);
@@ -312,11 +351,11 @@ public class ProductActivity extends AppCompatActivity {
 
     private void displayPrice(JSONObject price) throws JSONException {
         if(price.getString("price") != "null") {
-            carrefourPrice.setText("Carrefour: " + price.getString("price") + "€");
-            product.setPrice(price.getString("price") + "€");
+            carrefourPrice.setText(getString(R.string.carrefourList) + price.getString("price") + getString(R.string.currency));
+            product.setPrice(price.getString("price") + getString(R.string.currency));
             savePriceBtn.setVisibility(View.VISIBLE);
         } else {
-            carrefourPrice.setText("Prix introuvable.");
+            carrefourPrice.setText(getString(R.string.priceNotFound));
         }
 
         carrefourPriceLoader.setVisibility(View.GONE);
@@ -340,7 +379,7 @@ public class ProductActivity extends AppCompatActivity {
                         if(images.length() > 0) {
                             displayImages(images);
                         } else {
-                            searchOtherImagesText.setText("Aucune image additionnelle n'a été trouvée.");
+                            searchOtherImagesText.setText(getString(R.string.noAdditionalImages));
                         }
 
                         Log.i("DEVUPPASOCKET", data.toString());
@@ -383,20 +422,39 @@ public class ProductActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {
-        Glide.with(this).clear(viewPager);
-        finish();
-    }
-
-    @Override
     protected void onPause() {
         super.onPause();
-        Glide.with(this).clear(viewPager);
     }
 
     @Override
     public void onDestroy() {
+        if(socket != null) {
+            socket.off("getPriceCarrefourResponse", getPriceCarrefourResponse);
+            socket.off("getImagesResponse", getImagesResponse);
+
+            socket.disconnect();
+        }
+
         super.onDestroy();
-        finish();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+
+        Product product = (Product)data.getSerializableExtra(OFFIntentService.PRODUCT_RESULT_EXTRA);
+        Log.i("DEVUPPA", product.getGtin() + "SUCCESS OMFG WHY DOENT IT WORK ?");
+        if(product != null) {
+            this.isProductFound = true;
+            this.product = product;
+
+            for(int i = 0; i < mainLayout.getChildCount(); i++) {
+                if(mainLayout.getChildAt(i).getId() != R.id.noProductTitle) {
+                    mainLayout.getChildAt(i).setVisibility(View.VISIBLE);
+                }
+            }
+
+            init();
+        }
     }
 }

@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import fr.univpau.kayu.Product;
 
-@Database(entities = {Product.class}, version = 3, exportSchema = false)
+@Database(entities = {Product.class}, version = 6, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static AppDatabase INSTANCE;

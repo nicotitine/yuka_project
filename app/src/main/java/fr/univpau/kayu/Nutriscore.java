@@ -1,9 +1,16 @@
 package fr.univpau.kayu;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Nutriscore {
+
+    private String nutriscoreGrade;
 
     private String energy100g;
     private String fat100g;
@@ -21,79 +28,173 @@ public class Nutriscore {
     private String sodiumPortion;
     private String scorePortion;
 
-    public Nutriscore(String nutriscore) {
+    public Nutriscore(String nutriscore, String nutriscoreGrade) {
         try {
             JSONObject json = new JSONObject(nutriscore);
 
+            this.nutriscoreGrade = nutriscoreGrade;
+
+            // Energy (kcal and kj) per 100g
+            try {
+                energy100g = json.getString("energy_100g") + "kj"
+                        + "\n"
+                        + this.kjToKcal(new Integer(json.getString("energy_100g"))) + "kcal";
+            } catch (JSONException e) {
+                energy100g = "";
+            }
+
+            // Energy (kcal and kj) per portion
+            try {
+                energyPortion = json.get("energy_serving") + "kj"
+                        + "\n"
+                        + this.kjToKcal(new Integer(json.getString("energy_serving"))) + "kcal";
+            } catch (JSONException e) {
+                energyPortion = "";
+            }
+
+            // Fat and saturated-fat per 100g
             try {
                 fat100g = json.getString("fat_100g")
                         + json.getString("fat_unit")
                         + "\n"
                         + json.getString("saturated-fat_100g")
                         + json.getString("saturated-fat_unit");
+            } catch (JSONException e) {
+                fat100g = "";
+            }
 
+            // Fat and saturated-fat per 100g
+            try {
                 fatPortion = json.getString("fat_serving")
                         + json.getString("fat_unit")
                         + "\n"
                         + json.getString("saturated-fat_serving")
                         + json.getString("saturated-fat_unit");
             } catch (JSONException e) {
-                fat100g = "";
                 fatPortion = "";
             }
 
+            // Carbohydrates and sugars per 100g
             try {
                 sugars100g = json.getString("carbohydrates_100g")
                         + json.getString("carbohydrates_unit")
                         + "\n"
                         + json.getString("sugars_100g")
                         + json.getString("sugars_unit");
+            } catch (JSONException e) {
+                sugars100g = "";
+            }
 
+            // Carbohydrates and sugars per portion
+            try {
                 sugarsPortion = json.getString("carbohydrates_serving")
                         + json.getString("carbohydrates_unit")
                         + "\n"
                         + json.getString("sugars_serving")
                         + json.getString("sugars_unit");
             } catch (JSONException e) {
-                sugars100g = "";
                 sugarsPortion = "";
             }
 
+            // Fibers per 100g
             try {
                 fiber100g = json.getString("fiber_100g") + json.getString("fiber_unit");
-                fiberPortion = json.getString("fiber_serving") + json.getString("fiber_unit");
             } catch (JSONException e) {
                 fiber100g = "";
+            }
+
+            // Fibers per portion
+            try {
+                fiberPortion = json.getString("fiber_serving") + json.getString("fiber_unit");
+            } catch (JSONException e) {
                 fiberPortion = "";
             }
 
+            // Proteins per 100g
             try {
                 proteins100g = json.getString("proteins_100g") + json.getString("proteins_unit");
-                proteinsPortion = json.getString("proteins_serving") + json.getString("proteins_unit");
             } catch (JSONException e) {
                 proteins100g = "";
+            }
+
+            // Proteins per portion
+            try {
+                proteinsPortion = json.getString("proteins_serving") + json.getString("proteins_unit");
+            } catch (JSONException e) {
                 proteinsPortion = "";
             }
 
+            // Salt and sodium per 100g
             try {
-                sodium100g = json.getString("salt_100g") + json.getString("salt_unit");
-                sodiumPortion = json.getString("salt_serving") + json.getString("salt_unit");
+                sodium100g = json.getString("salt_100g")
+                        + json.getString("salt_unit")
+                        + "\n"
+                        + json.getString("sodium_100g")
+                        + json.getString("sodium_unit");
             } catch (JSONException e) {
                 sodium100g = "";
+            }
+
+            // Salt and sodium per portion
+            try {
+                sodiumPortion = json.getString("salt_serving")
+                        + json.getString("salt_unit")
+                        + "\n"
+                        + json.getString("sodium_serving")
+                        + json.getString("sodium_unit");
+            } catch (JSONException e) {
                 sodiumPortion = "";
             }
 
+            // Proteins per 100g
             try {
                 proteins100g = json.getString("proteins_100g") + json.getString("proteins_unit");
-                proteinsPortion = json.getString("proteins_serving") + json.getString("proteins_unit");
             } catch (JSONException e) {
                 proteins100g = "";
+            }
+
+            // Proteins per portion
+            try {
+                proteinsPortion = json.getString("proteins_serving") + json.getString("proteins_unit");
+            } catch (JSONException e) {
                 proteinsPortion = "";
+            }
+
+            // Score per 100g
+            try {
+                score100g = json.getString("nutrition-score-fr_100g")
+                        + "\n"
+                        + nutriscoreGrade;
+            } catch (JSONException e) {
+                score100g = "";
+            }
+
+            // Score per portion is the same...
+            try {
+                scorePortion = json.getString("nutrition-score-fr_100g")
+                        + "\n"
+                        + nutriscoreGrade;
+            } catch (JSONException e) {
+                scorePortion = "";
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private int kjToKcal(int kj) {
+        return BigDecimal.valueOf(kj / 4.184)
+                .setScale(1, RoundingMode.HALF_UP)
+                .intValue();
+    }
+
+    public String getNutriscoreGrade() {
+        return nutriscoreGrade;
+    }
+
+    public void setNutriscoreGrade(String nutriscoreGrade) {
+        this.nutriscoreGrade = nutriscoreGrade;
     }
 
     public String getEnergy100g() {
