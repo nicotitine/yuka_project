@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:gravity="center|center_horizontal|center_vertical"
@@ -12,13 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:adjustViewBounds="false"
+        android:background="@android:color/white"
         android:maxWidth="75dp"
         android:maxHeight="75dp"
         android:minWidth="75dp"
-        android:minHeight="75dp" />
+        android:minHeight="75dp"
+        android:contentDescription="@string/productThumbnailDescription"/>
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
         android:layout_weight="1"
@@ -29,7 +30,7 @@
             android:id="@+id/productNameRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="@string/product_name"
             android:textSize="14sp"
             android:textStyle="bold" />
 
@@ -37,7 +38,7 @@
             android:id="@+id/productDescriptionRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="TextView"
+            android:text="@string/product_ean"
             android:textSize="14sp" />
     </LinearLayout>
 
@@ -45,5 +46,6 @@
         android:id="@+id/imageView4"
         android:layout_width="24dp"
         android:layout_height="24dp"
+        android:contentDescription="@string/leftArrowDescription"
         app:srcCompat="@drawable/ic_right_arrow_green_24dp" />
 </LinearLayout>

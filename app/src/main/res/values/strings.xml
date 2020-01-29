@@ -1,34 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Main titles -->
     <string name="app_name">Kayu</string>
     <string name="title_activity_main">Kayu</string>
     <string name="title_scan">Scan</string>
-    <string name="title_history">Historique</string>
-    <string name="title_settings">Paramètres</string>
+    <string name="title_history">History</string>
+    <string name="title_settings">Settings</string>
+
+    <!-- Product activity -->
     <string name="product_name">Product name</string>
-    <string name="product_gtin">Product GTIN</string>
+    <string name="product_ean">Product EAN</string>
     <string name="product_quantity">Product quantity</string>
-    <string name="product_images">Images</string>
-    <string name="product_price">Prix</string>
-    <string name="product_price_carrefour">Carrefour: </string>
-    <string name="loading">Chargement...</string>
-    <string name="display_images">Afficher</string>
-    <string name="cancel">Annuler</string>
-    <string name="hide">Fermer</string>
-    <string name="save">Sauvegarder</string>
-    <string name="ingredients">Ingrédients</string>
-    <string name="nutriscore">Nutriscore</string>
-    <string name="detailsOFF">Plus de détails sur OpenFoodFacts.com</string>
-    <string name="addProductOFF">Renseigner ce produit sur OpenFoodFacts.com</string>
-
-    <string name="betterImagesFound"> images pouvant être de meilleure qualité ont été trouvées !</string>
-    <string name="noAdditionalImages">Aucune image additionnelle n\'a été trouvée.</string>
-    <string name="carrefour">Carrefour</string>
-    <string name="carrefourList">Carrefour:</string>
+    <string name="noQuantityFound">No quantity found.</string>
+    <string name="product_price">Price</string>
+    <string name="product_price_carrefour">Carrefour: %1$s</string>
     <string name="currency">€</string>
-    <string name="priceNotFound">Prix introuvable.</string>
+    <string name="priceNotFound">Price not found.</string>
+    <string name="priceSaved">Price correctly saved!</string>
+    <plurals name="product_images">
+        <item quantity="one">Image (%1$d)</item>
+        <item quantity="other">Images (%1$d)</item>
+    </plurals>
+    <plurals name="betterImagesFound">
+        <item quantity="one">%1$d image that can be of better quality has been found !</item>
+        <item quantity="other">%1$d images that can be of better quality have been found !</item>
+    </plurals>
+    <string name="noAdditionalImages">No additional image has been found.</string>
+    <plurals name="saveImages">
+        <item quantity="one">%d image correctly saved!</item>
+        <item quantity="other">%d images correctly saved!</item>
+    </plurals>
+    <string name="display_images">Display</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="detailsOFF">More details on OpenFoodFacts.com</string>
+    <string name="productNotFound">The product %s has not been found on Open Food Facts</string>
+    <string name="addProductOFF">Register this product on OpenFoodFacts.com</string>
 
-    <string name="theProduct">Le produit </string>
-    <string name="hasNotBeenFound"> n\'a pas été trouvé sur Open Food Facts.</string>
+    <!-- Nutriscore related -->
+    <string name="nutriscore">Nutriscore</string>
+    <string name="nutriscoreDescription">Nutriscore image</string>
+    <string name="for_100g">For 100g</string>
+    <string name="per_portion">Per portion</string>
+    <string name="energy">Energy</string>
+    <string name="fat_description">Fat\n\twhich saturated fat</string>
+    <string name="sugars_description">Carbohydrates\n\twhich sugar</string>
+    <string name="fibers_description">Fibers</string>
+    <string name="proteins_description">Proteins</string>
+    <string name="salt_description">Salt\n\tsodium</string>
+    <string name="score_description">Nutritional score- France\n\tNutriscore</string>
 
-    <string name="empty"></string>
+    <!-- Scan fragment -->
+    <string name="need_permission">Permission needed to use the camera.</string>
+    <string name="need_permission_message">This permission necessary in order to scan a product using the camera.</string>
+    <string name="permission_refused">Permission not granted.</string>
+
+    <!-- History fragment -->
+    <string name="productThumbnailDescription">Product thumbnail</string>
+    <string name="leftArrowDescription">Display the product</string>
+    <string name="no_product_yet">No product scanned yet.</string>
+
+    <!-- Settings fragment -->
+    <string name="general_parameters">General settings</string>
+    <string name="dark_mode_ppt">Dark mode</string>
+    <string name="dark_mode_icon_description">Dark mode</string>
+    <string name="search_automatic_ppt">Automatically search for price and images</string>
+    <string name="search_automatic_icon_description">Auto search</string>
+    <string name="history_title">History</string>
+    <string name="delete_history_button">Delete history</string>
+    <string name="other_settings">Others</string>
+    <string name="check_project_github">Check this project on GitHub</string>
+    <string name="check_other_project_github">Check the search functions project on GitHub</string>
+
+    <!-- Basic words -->
+    <string name="loading">Loading&#8230;</string>
+    <string name="cancel">Cancel</string>
+    <string name="hide">Close</string>
+    <string name="save">Save</string>
+    <string name="ok">OK</string>
+    <string name="enterManually">Enter manually</string>
+    <string name="search">Search</string>
 </resources>

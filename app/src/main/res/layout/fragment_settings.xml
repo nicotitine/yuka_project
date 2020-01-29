@@ -10,9 +10,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginTop="16dp"
-        android:text="Paramètres généraux"
+        android:text="@string/general_parameters"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,7 +39,8 @@
                 android:id="@+id/imageView"
                 android:layout_width="24dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_settings_theme_24dp" />
+                app:srcCompat="@drawable/ic_settings_theme_24dp"
+                android:contentDescription="@string/dark_mode_icon_description"/>
 
             <Switch
                 android:id="@+id/darkThemeSwitch"
@@ -49,9 +49,8 @@
                 android:layout_weight="2"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Mode sombre"
+                android:text="@string/dark_mode_ppt"
                 android:textColor="@color/colorText" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -66,7 +65,8 @@
                 android:id="@+id/imageView2"
                 android:layout_width="24dp"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_settings_search_24dp" />
+                app:srcCompat="@drawable/ic_settings_search_24dp"
+                android:contentDescription="@string/search_automatic_icon_description"/>
 
             <Switch
                 android:id="@+id/automaticSearchSwitch"
@@ -75,7 +75,7 @@
                 android:layout_weight="2"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:text="Chercher automatiquement le prix et les images"
+                android:text="@string/search_automatic_ppt"
                 android:textColor="@color/colorText"
                 tools:checked="true" />
         </LinearLayout>
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Historique"
+        android:text="@string/history_title"
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,9 +101,47 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:text="Supprimer l'historique"
+        android:text="@string/delete_history_button"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/other_settings"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/deleteHistoryBtn" />
+
+    <Button
+        android:id="@+id/checkThisProjectButton"
+        style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/check_project_github"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+
+    <Button
+        android:id="@+id/checkOtherProjectButton"
+        style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/check_other_project_github"
+        android:textAlignment="viewStart"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkThisProjectButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

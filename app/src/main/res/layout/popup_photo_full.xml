@@ -17,12 +17,13 @@
         android:id="@+id/ib_close"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:background="@null"
         android:elevation="5dp"
         android:padding="3dp"
         android:src="@android:drawable/ic_menu_close_clear_cancel"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel"
+        android:contentDescription="@string/hide"/>
 
     <ProgressBar
         android:id="@+id/loading"
@@ -32,6 +33,5 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true" />
-
 
 </RelativeLayout>

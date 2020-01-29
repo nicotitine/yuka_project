@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Main titles -->
+    <string name="app_name">Kayu</string>
+    <string name="title_activity_main">Kayu</string>
+    <string name="title_scan">Scan</string>
+    <string name="title_history">Historique</string>
+    <string name="title_settings">Paramètres</string>
+
+    <!-- Product activity -->
+    <string name="product_name">Nom du produit</string>
+    <string name="product_ean">Code barre</string>
+    <string name="product_quantity">Quantité</string>
+    <string name="noQuantityFound">Pas de quantité trouvée.</string>
+    <string name="product_price">Prix</string>
+    <string name="product_price_carrefour">Carrefour: %1$s</string>
+    <string name="currency">€</string>
+    <string name="priceNotFound">Prix introuvable.</string>
+    <string name="priceSaved">Prix correctement sauvegardé !</string>
+    <plurals name="product_images">
+        <item quantity="one">Image (%1$d)</item>
+        <item quantity="other">Images (%1$d)</item>
+    </plurals>
+    <plurals name="betterImagesFound">
+        <item quantity="one">%1$d image pouvant être de meilleure qualité a été trouvée !</item>
+        <item quantity="other">%1$d images pouvant être de meilleure qualité ont été trouvées !</item>
+    </plurals>
+    <string name="noAdditionalImages">Aucune image additionnelle n\'a été trouvée.</string>
+    <plurals name="saveImages">
+        <item quantity="one">%d image correctement sauvegardée !</item>
+        <item quantity="other">%d images correctement sauvegardées !</item>
+    </plurals>
+    <string name="display_images">Afficher</string>
+    <string name="ingredients">Ingrédients</string>
+    <string name="detailsOFF">Plus de détails sur OpenFoodFacts.com</string>
+    <string name="productNotFound">Le produit %1$s n\'a pas été trouvé sur Open Food Facts</string>
+    <string name="addProductOFF">Renseigner ce produit sur OpenFoodFacts.com</string>
+
+    <!-- Nutriscore related -->
+    <string name="nutriscore">Nutriscore</string>
+    <string name="nutriscoreDescription">Image nutriscore</string>
+    <string name="for_100g">Pour 100g</string>
+    <string name="per_portion">Par portion</string>
+    <string name="energy">Énergie</string>
+    <string name="fat_description">Matières grasses\n\tdont acides gras saturés</string>
+    <string name="sugars_description">Glucides\n\tdont sucres</string>
+    <string name="fibers_description">Fibres alimentaires</string>
+    <string name="proteins_description">Protéines</string>
+    <string name="salt_description">Sel\n\tsodium</string>
+    <string name="score_description">Score nutritionnel - France\n\tNutriscore</string>
+
+    <!-- Scan fragment -->
+    <string name="need_permission">Permission nécessaire pour la caméra</string>
+    <string name="need_permission_message">Cette permission est nécessaire pour scanner un produit à l\'aide de la camera.</string>
+    <string name="permission_refused">Permission non accordée.</string>
+
+    <!-- History fragment -->
+    <string name="productThumbnailDescription">Vignette du produit</string>
+    <string name="leftArrowDescription">Afficher le produit</string>
+    <string name="no_product_yet">Aucun produit scanné pour le moment.</string>
+
+    <!-- Settings fragment -->
+    <string name="general_parameters">Paramètres généraux</string>
+    <string name="dark_mode_ppt">Mode sombre</string>
+    <string name="dark_mode_icon_description">Mode sombre</string>
+    <string name="search_automatic_ppt">Chercher automatiquement le prix et les images</string>
+    <string name="search_automatic_icon_description">Recherche auto</string>
+    <string name="history_title">Historique</string>
+    <string name="delete_history_button">Supprimer l\'historique</string>
+    <string name="other_settings">Autres</string>
+    <string name="check_project_github">Visiter ce projet sur GitHub</string>
+    <string name="check_other_project_github">Visiter le projet des fonctions de recherche sur GitHub</string>
+
+    <!-- Basic words -->
+    <string name="loading">Chargement&#8230;</string>
+    <string name="cancel">Annuler</string>
+    <string name="hide">Fermer</string>
+    <string name="save">Sauvegarder</string>
+    <string name="ok">Accepter</string>
+    <string name="enterManually">Entrer manuellement</string>
+    <string name="search">Chercher</string>
+</resources>

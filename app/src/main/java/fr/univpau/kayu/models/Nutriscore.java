@@ -1,10 +1,7 @@
-package fr.univpau.kayu;
-
-import android.util.Log;
+package fr.univpau.kayu.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -28,8 +25,37 @@ public class Nutriscore {
     private String sodiumPortion;
     private String scorePortion;
 
+    /**
+     * The nutriscore constructor.
+     * We have to be careful here due to all exceptions that can be raised by searching in a JSONObject in Java...
+     * @param nutriscore the nutriscore descriptor. Actually, this is a <code>JSONObject</code> stored as a <code>String</code> format.
+     * @param nutriscoreGrade the nutriscore grade.
+     */
     public Nutriscore(String nutriscore, String nutriscoreGrade) {
         try {
+            if(nutriscoreGrade == null) {
+                this.nutriscoreGrade = "";
+            }
+
+            if(nutriscore == null) {
+                energy100g = "";
+                fat100g = "";
+                sugars100g = "";
+                fiber100g = "";
+                proteins100g = "";
+                sodium100g = "";
+                score100g = "";
+                energyPortion = "";
+                fatPortion = "";
+                sugarsPortion = "";
+                fiberPortion = "";
+                proteinsPortion = "";
+                sodiumPortion = "";
+                scorePortion = "";
+
+                return ;
+            }
+
             JSONObject json = new JSONObject(nutriscore);
 
             this.nutriscoreGrade = nutriscoreGrade;
@@ -38,7 +64,7 @@ public class Nutriscore {
             try {
                 energy100g = json.getString("energy_100g") + "kj"
                         + "\n"
-                        + this.kjToKcal(new Integer(json.getString("energy_100g"))) + "kcal";
+                        + this.kjToKcal(Integer.valueOf(json.getString("energy_100g"))) + "kcal";
             } catch (JSONException e) {
                 energy100g = "";
             }
@@ -47,7 +73,7 @@ public class Nutriscore {
             try {
                 energyPortion = json.get("energy_serving") + "kj"
                         + "\n"
-                        + this.kjToKcal(new Integer(json.getString("energy_serving"))) + "kcal";
+                        + this.kjToKcal(Integer.valueOf(json.getString("energy_serving"))) + "kcal";
             } catch (JSONException e) {
                 energyPortion = "";
             }
@@ -183,129 +209,81 @@ public class Nutriscore {
         }
     }
 
+    /**
+     * Computes the value in kcal for a given kj value.
+     * @param kj the value we want to convert in kcal.
+     * @return the kcal value.
+     */
     private int kjToKcal(int kj) {
         return BigDecimal.valueOf(kj / 4.184)
                 .setScale(1, RoundingMode.HALF_UP)
                 .intValue();
     }
 
+
+    /*******************************************************
+     *
+     * All getters (setters are unused in this project)
+     *
+     ******************************************************/
+
     public String getNutriscoreGrade() {
         return nutriscoreGrade;
-    }
-
-    public void setNutriscoreGrade(String nutriscoreGrade) {
-        this.nutriscoreGrade = nutriscoreGrade;
     }
 
     public String getEnergy100g() {
         return energy100g;
     }
 
-    public void setEnergy100g(String energy100g) {
-        this.energy100g = energy100g;
-    }
-
     public String getFat100g() {
         return fat100g;
-    }
-
-    public void setFat100g(String fat100g) {
-        this.fat100g = fat100g;
     }
 
     public String getSugars100g() {
         return sugars100g;
     }
 
-    public void setSugars100g(String sugars100g) {
-        this.sugars100g = sugars100g;
-    }
-
     public String getFiber100g() {
         return fiber100g;
-    }
-
-    public void setFiber100g(String fiber100g) {
-        this.fiber100g = fiber100g;
     }
 
     public String getProteins100g() {
         return proteins100g;
     }
 
-    public void setProteins100g(String proteins100g) {
-        this.proteins100g = proteins100g;
-    }
-
     public String getSodium100g() {
         return sodium100g;
-    }
-
-    public void setSodium100g(String sodium100g) {
-        this.sodium100g = sodium100g;
     }
 
     public String getScore100g() {
         return score100g;
     }
 
-    public void setScore100g(String score100g) {
-        this.score100g = score100g;
-    }
-
     public String getEnergyPortion() {
         return energyPortion;
-    }
-
-    public void setEnergyPortion(String energyPortion) {
-        this.energyPortion = energyPortion;
     }
 
     public String getFatPortion() {
         return fatPortion;
     }
 
-    public void setFatPortion(String fatPortion) {
-        this.fatPortion = fatPortion;
-    }
-
     public String getSugarsPortion() {
         return sugarsPortion;
-    }
-
-    public void setSugarsPortion(String sugarsPortion) {
-        this.sugarsPortion = sugarsPortion;
     }
 
     public String getFiberPortion() {
         return fiberPortion;
     }
 
-    public void setFiberPortion(String fiberPortion) {
-        this.fiberPortion = fiberPortion;
-    }
-
     public String getProteinsPortion() {
         return proteinsPortion;
-    }
-
-    public void setProteinsPortion(String proteinsPortion) {
-        this.proteinsPortion = proteinsPortion;
     }
 
     public String getSodiumPortion() {
         return sodiumPortion;
     }
 
-    public void setSodiumPortion(String sodiumPortion) {
-        this.sodiumPortion = sodiumPortion;
-    }
-
     public String getScorePortion() {
         return scorePortion;
-    }
-
-    public void setScorePortion(String scorePortion) {
-        this.scorePortion = scorePortion;
     }
 }

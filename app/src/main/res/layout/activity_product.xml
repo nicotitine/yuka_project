@@ -1,309 +1,338 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/scrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProductActivity">
+    android:orientation="vertical"
+    tools:context=".ui.product.ProductActivity">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/mainLayout"
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:id="@+id/productName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/product_name"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <TextView
-            android:id="@+id/productGtin"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/product_gtin"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productName" />
-
-        <TextView
-            android:id="@+id/productQuantity"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/product_quantity"
-            android:textSize="18sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productGtin" />
-
-        <TextView
-            android:id="@+id/imagesTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/product_images"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/carrefourPrice" />
-
-        <TextView
-            android:id="@+id/productPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/product_price"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productQuantity"
-            tools:text="Prix" />
-
-        <TextView
-            android:id="@+id/carrefourPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="@string/product_price_carrefour"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productPrice" />
-
-        <ProgressBar
-            android:id="@+id/carrefourPriceLoader"
-            style="@android:style/Widget.Material.Light.ProgressBar.Small"
-            android:layout_width="22dp"
-            android:layout_height="19dp"
-            app:layout_constraintStart_toEndOf="@+id/carrefourPrice"
-            app:layout_constraintTop_toBottomOf="@+id/productPrice" />
-
-        <TextView
-            android:id="@+id/searchOtherImagesText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:text="@string/loading"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imagesTitle" />
-
-        <ProgressBar
-            android:id="@+id/imagesLoader"
-            style="@android:style/Widget.Material.Light.ProgressBar.Small"
-            android:layout_width="22dp"
-            android:layout_height="19dp"
-            android:layout_weight="1"
-            app:layout_constraintStart_toEndOf="@+id/searchOtherImagesText"
-            app:layout_constraintTop_toTopOf="@+id/searchOtherImagesText" />
-
-        <Button
-            android:id="@+id/displayImagesBtn"
-            style="@android:style/Widget.Material.Light.Button.Borderless.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginLeft="16dp"
-            android:text="@string/display_images"
-            android:textColor="@color/colorPrimary"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/searchOtherImagesText" />
-
-        <Button
-            android:id="@+id/hideOtherImagesInfoBtn"
-            style="@android:style/Widget.Material.Light.Button.Borderless.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:text="@string/hide"
-            android:textColor="@color/colorSecondary"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toEndOf="@+id/displayImagesBtn"
-            app:layout_constraintTop_toBottomOf="@+id/searchOtherImagesText" />
-
-        <Button
-            android:id="@+id/saveNewImagesBtn"
-            style="@android:style/Widget.Material.Light.Button.Borderless.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/save"
-            android:textColor="#00B462"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/searchOtherImagesText"
-            app:layout_constraintStart_toEndOf="@+id/imagesTitle"
-            app:layout_constraintTop_toTopOf="@+id/imagesTitle" />
-
-        <Button
-            android:id="@+id/savePriceBtn"
-            style="@android:style/Widget.Material.Light.Button.Borderless.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/save"
-            android:textColor="#00B462"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/carrefourPrice"
-            app:layout_constraintStart_toEndOf="@+id/carrefourPriceLoader"
-            app:layout_constraintTop_toTopOf="@+id/carrefourPrice" />
-
-        <Button
-            android:id="@+id/cancelOtherImagesBtn"
-            style="@android:style/Widget.Material.Light.Button.Borderless.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:text="@string/cancel"
-            android:textColor="@color/colorSecondary"
-            android:textSize="12sp"
-            android:visibility="gone"
-            app:layout_constraintBottom_toBottomOf="@+id/imagesTitle"
-            app:layout_constraintStart_toEndOf="@+id/saveNewImagesBtn"
-            app:layout_constraintTop_toTopOf="@+id/imagesTitle" />
-
-        <RelativeLayout
-            android:id="@+id/relativeLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="300dp"
-            android:layout_marginTop="8dp"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hideOtherImagesInfoBtn"
-            tools:context="com.lobothijau.carouselsederhana.MainActivity"
-            tools:showIn="@layout/activity_main" />
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/hideOtherImagesInfoBtn" />
-
-        <me.relex.circleindicator.CircleIndicator
-            android:id="@+id/indicator"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            app:layout_constraintBottom_toBottomOf="@+id/viewPager"
-            app:layout_constraintStart_toStartOf="parent">
-
-        </me.relex.circleindicator.CircleIndicator>
-
-        <TextView
-            android:id="@+id/productIngredients"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/ingredients"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/indicator" />
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/ingredients"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/productIngredients"
-            tools:itemCount="4"
-            tools:listitem="@layout/ingredient_item" />
+        android:layout_height="wrap_content"
+        android:visibility="gone">
 
         <LinearLayout
-
-            android:id="@+id/nutriscoreLayout"
-            android:layout_width="0dp"
+            android:id="@+id/productLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/ingredients"></LinearLayout>
+            app:layout_constraintTop_toTopOf="parent">
 
-        <Button
-            android:id="@+id/openOnOffBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:layout_marginBottom="24dp"
-            android:background="@color/colorPrimary"
-            android:drawableRight="@drawable/ic_open_in_new_white_24dp"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/detailsOFF"
-            android:textColor="@android:color/white"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.496"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nutriscoreLayout" />
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/product_name"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/productEan"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/product_ean" />
+
+            <TextView
+                android:id="@+id/productQuantity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/product_quantity"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/productPrice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/product_price"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="Prix" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/carrefourPrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/product_price_carrefour" />
+
+                <ProgressBar
+                    android:id="@+id/carrefourPriceLoader"
+                    style="@android:style/Widget.Material.Light.ProgressBar.Small"
+                    android:layout_width="22dp"
+                    android:layout_height="19dp" />
+
+                <Button
+                    android:id="@+id/savePriceBtn"
+                    style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/save"
+                    android:textColor="#00B462"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/imagesTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/searchOtherImagesText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/loading" />
+
+                <ProgressBar
+                    android:id="@+id/imagesLoader"
+                    style="@android:style/Widget.Material.Light.ProgressBar.Small"
+                    android:layout_width="22dp"
+                    android:layout_height="19dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/displayImagesBtn"
+                    style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/display_images"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/hideOtherImagesInfoBtn"
+                    style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/hide"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/saveNewImagesBtn"
+                    style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:text="@string/save"
+                    android:textColor="#00B462"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/cancelOtherImagesBtn"
+                    style="@android:style/Widget.Material.Light.Button.Borderless.Small"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorSecondary"
+                    android:textSize="12sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="300dp"
+                android:layout_marginTop="8dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                tools:context="com.lobothijau.carouselsederhana.MainActivity"
+                tools:showIn="@layout/activity_main">
+
+                <androidx.viewpager.widget.ViewPager
+                    android:id="@+id/viewPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginTop="8dp">
+
+                </androidx.viewpager.widget.ViewPager>
+
+                <me.relex.circleindicator.CircleIndicator
+                    android:id="@+id/indicator"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="0dp">
+
+                </me.relex.circleindicator.CircleIndicator>
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/productIngredients"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/ingredients"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/ingredients"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                tools:itemCount="4"
+                tools:listitem="@layout/ingredient_item" />
+
+            <LinearLayout
+                android:id="@+id/nutriscoreLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ingredients"/>
+
+            <Button
+                android:id="@+id/openOnOffBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="24dp"
+                android:background="@color/colorPrimary"
+                android:drawableEnd="@drawable/ic_open_in_new_white_24dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="@string/detailsOFF"
+                android:textAlignment="center"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.496"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nutriscoreLayout" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:id="@+id/productNotFoundLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/noProductTitle"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="16dp"
-            android:text="TextView"
+            android:text="@string/productNotFound"
             android:textAlignment="center"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/openOnOffBtn" />
 
         <Button
             android:id="@+id/addProductOFF"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="32dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="16dp"
             android:background="@color/colorAccent"
-            android:drawableRight="@drawable/ic_open_in_new_white_24dp"
+            android:drawableEnd="@drawable/ic_open_in_new_white_24dp"
+            android:paddingStart="20dp"
+            android:paddingEnd="20dp"
             android:text="@string/addProductOFF"
             android:textColor="@android:color/white"
             android:textSize="12sp"
-            android:visibility="gone"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/noProductTitle" />
 
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/loadingLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+        <ProgressBar
+            android:id="@+id/imagesLoader2"
+            style="@android:style/Widget.Material.Light.ProgressBar.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/textView4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/loading"
+            android:textAlignment="center" />
+
+    </LinearLayout>
+</LinearLayout>
